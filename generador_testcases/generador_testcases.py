@@ -1,6 +1,5 @@
 import argparse
 import random
-from generators import Generator_test
 
 class Generator_test():
 
