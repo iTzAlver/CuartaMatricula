@@ -9,30 +9,27 @@ def randomword(length):
 
 class Generator_test():
 
-    def imprimir_matriz(self,rows=1,columns=1,n=1,zero=False):
+    def imprimir_matriz(self,rows=1,columns=1,char=" ",n=1,zero=False):
         a=""
-        gen=[]
         for k in range(n):
             for i in range(rows):
                 for j in range(columns):
                     if zero==False:
                         a+=str(random.randint(0,9))
                         if j != columns-1:
-                            a+=" "
+                            a+=char
                     else:
                         a+=str(0)
                         if j != columns-1:
-                            a+=" "
+                            a+=char
 
                 if i != rows-1:
                     a+="\n"
-            gen.append(a)
+            print(a)
             a=""
-            print(gen[k])
 
     def imprimir_ristra(self,rows,ncar,nveces=1,word=False,zero=False):
         text=""
-        gen=[]
         for k in range(nveces):
             if nveces>1:
                 print(str(rows))
@@ -45,11 +42,8 @@ class Generator_test():
                             text+=str(random.randint(0,9))
                     else:
                         text+=str(0)*ncar
-                        text+="\n" 
-                gen.append(text)
+                print(text)
                 text=""
-                print(gen[i])
-            gen.clear()
 
 #    def imprimir_matriz(self,fmt):
 #        if fmt == 'std':
@@ -67,7 +61,7 @@ parser = argparse.ArgumentParser()
 
 parser.add_argument('-f', dest='format', choices=['std', 'iso', 'unix', 'tz'],
                     help="shows datetime in given format")
-parser.add_argument('-M', type=int,nargs='*',dest='matrix',help="Genera matriz nxn")
+parser.add_argument('-M', type=str,nargs='*',dest='matrix',help="Genera matriz nxn")
 
 parser.add_argument('-g', type=int,nargs='*',dest='gen',help="Genera texto")
 
@@ -78,7 +72,7 @@ fmt = args.format
 if args.matrix:
     a1 = int(args.matrix[0])
     a2 = int(args.matrix[1])
-    a3 = int(args.matrix[2])
+    a3 = str(args.matrix[2])
     a4 = int(args.matrix[3])
     gen.imprimir_matriz(a1,a2,a3,a4)
 elif args.gen:
@@ -88,5 +82,4 @@ elif args.gen:
     a4 = int(args.gen[3])
     a5 = int(args.gen[4])
     gen.imprimir_ristra(a1,a2,a3,a4,a5)
-
 
