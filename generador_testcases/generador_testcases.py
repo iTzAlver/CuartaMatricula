@@ -8,31 +8,28 @@ class Utiles():
        letters = string.ascii_lowercase
        return ''.join(random.choice(letters) for i in range(length))
 
+    #Cutre ,creo que con argparse se puede mejorar
     @staticmethod
-    def reconocer_ristra(t_input):
-        l_input=[]
-        for i in t_input:
-            l_input.append(ord(i))
-        return l_input
+    def check_argument_list(a6):
+        if a6[0]=="[" and a6[len(a6)-1]=="]":
+            aux=a6[1:-1]
+            cases=aux.split(",")
+            for i in range(len(cases)): 
+                cases[i]=int(cases[i])
+            return cases
 
 class Generator_test():
 
-    def imp_ristra(self,rows=1,columns=1,char=" ",ncar=1,n=1,word=False,zero=False):
+    def imp_ristra(self,rows=1,columns=1,char=" ",ncar=1,word=False,n=1):
         a=""
         for k in range(n):
-            print(n)
             for i in range(rows):
                 for j in range(columns):
                     if word == False:
-                        if zero==False:
-                            for l in range(ncar):
-                                a+=str(random.randint(0,9))
-                            if j != columns-1:
-                                a+=char
-                        else:
-                            a+=str(0)
-                            if j != columns-1:
-                                a+=char
+                        for l in range(ncar):
+                            a+=str(random.randint(0,9))
+                        if j != columns-1:
+                            a+=char
                     else:
                         a+=Utiles.randomword(ncar)
                         if j != columns-1:
@@ -43,10 +40,8 @@ class Generator_test():
             print(a)
             a=""
         
-    def imp_ristra_reconocida(self,m):
-        lista_char=Utiles.reconocer_ristra(m)
-        for i in lista_char:
-            print(i)
+    def imp_hola(self,m):
+        print(m)
 
 
 #    def imprimir_matriz(self,fmt):
@@ -78,9 +73,14 @@ if args.matrix:
     a3 = str(args.matrix[2])
     a4 = int(args.matrix[3])
     a5 = int(args.matrix[4])
-    a6 = int(args.matrix[5])
-    gen.imp_ristra(a1,a2,a3,a4,a5,a6)
+    a6 = str(args.matrix[5])
+
+    cases=Utiles.check_argument_list(a6)
+    for i in cases:
+        print(i)
+        gen.imp_ristra(a1,a2,a3,a4,a5,i)
+
 elif args.gen:
     a1 = str(args.gen[0])
-    gen.imp_ristra_reconocida(a1)
+    gen.imp_hola(a1)
 
