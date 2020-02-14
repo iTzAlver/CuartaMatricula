@@ -1,14 +1,16 @@
-# CuartaMatricula
-Repositorio para almacenar código de programación competitiva.
+# CuartaMatricula.
 
 ## Introducción.
 Este es un workspace creado para el grupo CuartaMatricula, este repositorio es para almacenar código de programación competitiva y utilities relaccionados con la programación de este grupo. La estructura de archivos está compuesta en los siguientes apartados:
   * [Plataformas]: Plataformas de las que se sacan los desafíos.
-  * Competiciones: Plataformas donde hay competiciones.
+  * _dir_ Competiciones: Plataformas donde hay competiciones.
   * CONTRIBUTING.md: Imformación de cómo contribuir a los participantes.
   * LICENSE: Licencia MIT.
-  * 
+  * .[]: Formateadores.
+  * pyprotect.toml: Protector de python.
+  * _dir_ Utilities:
   
+## Formato de código.
 El código se formatea con [black](https://github.com/psf/) para python
 ```bash
 python3 -m pip install black --user
