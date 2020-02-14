@@ -2,7 +2,7 @@
 
 ## Introducción.
 Este es un workspace creado para el grupo CuartaMatricula, este repositorio es para almacenar código de programación competitiva y utilities relaccionados con la programación de este grupo. La estructura de archivos está compuesta en los siguientes apartados:
-```bash
+
   * _dir_: **[Plataformas]**: Plataformas de las que se sacan los desafíos.
   * _dir_: **Competiciones**: Plataformas donde hay competiciones.
   * _dir_: **Utils**:         Uitilities para el grupo.
@@ -10,7 +10,7 @@ Este es un workspace creado para el grupo CuartaMatricula, este repositorio es p
   * **LICENSE**:              Licencia MIT.
   * **.[]**:                  Formateadores.
   * **pyprotect.toml**:       Protector de python.
-```  
+ 
 ## Formato de código.
 El código se formatea con [black](https://github.com/psf/) para python
 ```bash
