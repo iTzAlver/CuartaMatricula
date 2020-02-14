@@ -60,15 +60,6 @@ class Generator_test:
         print(m)
 
 
-#    def imprimir_matriz(self,fmt):
-#        if fmt == 'std':
-#            print("Illo ")
-#        elif fmt == 'iso':
-#            print("HOla majo")
-#        elif fmt == 'unix':
-#            print("prueba")
-#        elif fmt == 'tz':
-#            print("Gol del borusia")
 
 gen = Generator_test()
 
@@ -77,10 +68,8 @@ parser = argparse.ArgumentParser()
 parser.add_argument("-M", type=str, nargs="*", dest="matrix", help="Genera matriz nxn")
 
 parser.add_argument("-g", type=str, nargs="*", dest="gen", help="Genera texto")
-# parser.add_argument('-f', dest='format', choices=['std', 'iso', 'unix', 'tz'],help="shows datetime in given format")
 
 args = parser.parse_args()
-# fmt = args.format
 
 # Cutre
 if args.matrix:
