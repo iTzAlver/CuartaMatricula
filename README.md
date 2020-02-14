@@ -2,10 +2,13 @@
 Repositorio para almacenar código de programación competitiva.
 
 ## Introducción.
-Este es un workspace creado para el grupo CuartaMatricula, este repositorio es para almacenar código de programación competitiva y utilities relaccionados con la programación de este grupo.
-
-Leer la forma que tenemos de organizar el código para no machacar nada y no liarnos.
-
+Este es un workspace creado para el grupo CuartaMatricula, este repositorio es para almacenar código de programación competitiva y utilities relaccionados con la programación de este grupo. La estructura de archivos está compuesta en los siguientes apartados:
+  * [Plataformas]: Plataformas de las que se sacan los desafíos.
+  * Competiciones: Plataformas donde hay competiciones.
+  * CONTRIBUTING.md: Imformación de cómo contribuir a los participantes.
+  * LICENSE: Licencia MIT.
+  * 
+  
 El código se formatea con [black](https://github.com/psf/) para python
 ```bash
 python3 -m pip install black --user
@@ -16,7 +19,8 @@ sudo apt install clang-format # en ubuntu
 sudo pacman -S clang # en arch
 http://releases.llvm.org/download.html # windows
 ```
-Licencia MIT.
+
+
 ## Integrantes del aquipo:
 Alvaro Iglesias.
 
@@ -27,4 +31,3 @@ Alberto Palomo.
 Luis Miguel Moreno.
 
 Juan Pablo Espartosa.
-
