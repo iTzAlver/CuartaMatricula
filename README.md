@@ -25,7 +25,12 @@ http://releases.llvm.org/download.html # windows
 
 ## Developers:
 #### [Alvaro Iglesias.](https://github.com/t4rmo)
+
 #### [Gonzalo Corral.](https://github.com/augur97)
+
 #### [Alberto Palomo.](https://github.com/iTzAlver)
-#### [Luis Miguel Moreno.](https://github.com/)
+
+#### [Luis Miguel Moreno.](https://github.com/LuisMiguelMoreno)
+
 #### [Juan Pablo Espartosa.](https://github.com/JuanPabloEs)
+
