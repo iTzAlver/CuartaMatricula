@@ -22,14 +22,14 @@ sudo pacman -S clang # en arch
 http://releases.llvm.org/download.html # windows
 ```
 
-## Integrantes del aquipo:
-Alvaro Iglesias.
-@t4rmo
-Gonzalo Corral.
-@augur97
-Alberto Palomo.
-@iTzAlver
-Luis Miguel Moreno.
-@
-Juan Pablo Espartosa.
-@JuanPabloEs
+## Developers:
+ * Alvaro Iglesias.  
+ - [t4rmo]()
+ * Gonzalo Corral.
+ - [augur97]()
+ * Alberto Palomo.
+ - [iTzAlver]()
+ * Luis Miguel Moreno.
+ - []
+ * Juan Pablo Espartosa.
+ * [JuanPabloEs]()
