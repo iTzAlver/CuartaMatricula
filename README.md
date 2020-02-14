@@ -8,7 +8,7 @@ Este es un workspace creado para el grupo CuartaMatricula, este repositorio es p
   * LICENSE: Licencia MIT.
   * .[]: Formateadores.
   * pyprotect.toml: Protector de python.
-  * _dir_ Utilities:
+  * _dir_ Utils:
   
 ## Formato de código.
 El código se formatea con [black](https://github.com/psf/) para python
