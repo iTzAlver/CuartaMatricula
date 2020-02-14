@@ -27,4 +27,4 @@ http://releases.llvm.org/download.html # windows
 #### [Gonzalo Corral.](https://github.com/augur97)
 #### [Alberto Palomo.](https://github.com/iTzAlver)
 #### [Luis Miguel Moreno.](https://github.com/)
-#### [Juan Pablo Espartosa](https://github.com/JuanPabloEs)
+#### [Juan Pablo Espartosa.](https://github.com/JuanPabloEs)
