@@ -15,6 +15,20 @@ class Utiles:
 
     # Cutre ,creo que con argparse se puede mejorar
     @staticmethod
+    def check_argument_numbers(arg):
+        cont=0
+        if len(arg) > 0:
+            for i in arg:
+                try:
+                    int(i)
+                except ValueError:
+                    arg=arg[:cont]+"0"+arg[(cont+1):]
+                cont+=1
+            return arg
+
+        return ""
+
+    @staticmethod
     def check_argument_list(arg):
         if len(arg) > 0:
             if arg[0] == "[" and arg[len(arg) - 1] == "]":
@@ -22,7 +36,10 @@ class Utiles:
                 if len(aux) > 0:
                     cases = aux.split(",")
                     for i in range(len(cases)):
-                        cases[i] = int(cases[i])
+                        try:
+                            cases[i] = int(cases[i])
+                        except ValueError:
+                            cases[i] = ord(cases[i])
                     return cases
 
         return ""
@@ -30,27 +47,29 @@ class Utiles:
 
 class Generator_test:
     def imp_ristra(
-        self, rows=1, columns=1, char=" ", ncar=1, tipo="", intercalado="", n=1
+        self, rows=1, columns=1, char=" ", ncar=1, tipo=0, intercalado="", n=1
     ):
         a = ""
         cont = 0
-        intercalado = Utiles.check_argument_list(intercalado)
+        intercalado=Utiles.check_argument_numbers(intercalado)
         for k in range(n):
             for i in range(rows):
                 for j in range(columns):
                     if cont < len(intercalado):  # Mejorable
-                        if intercalado[cont] == 0:
+                        if int(intercalado[cont]) == 0:
                             a += Utiles.randomnumber(ncar, 0, 9)
                         else:
                             a += Utiles.randomword(ncar)
                     else:
-                        if tipo == "I":
+                        if tipo == 0:
                             a += Utiles.randomnumber(ncar, 0, 9)
                         else:
                             a += Utiles.randomword(ncar)
                     cont += 1
+                
                     if j != columns - 1:
                         a += char
+                cont=0
                 if i != rows - 1:
                     a += "\n"
             print(a)
@@ -77,13 +96,13 @@ if args.matrix:
     a2 = int(args.matrix[1])
     a3 = str(args.matrix[2])
     a4 = int(args.matrix[3])
-    a5 = str(args.matrix[4])
+    a5 = int(args.matrix[4])
     a6 = str(args.matrix[5])
     a7 = str(args.matrix[6])
-    cases = Utiles.check_argument_list(a7)
-    for i in cases:
+    a7=Utiles.check_argument_list(a7)
+    for i in a7:
         print(i)
-        gen.imp_ristra(a1, a2, a3, a4, a5, a6, i)
+        gen.imp_ristra(a1, a2, a3, a4, a5, a6, int(i))
 
 elif args.gen:
     a1 = str(args.gen[0])
