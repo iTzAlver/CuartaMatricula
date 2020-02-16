@@ -62,15 +62,16 @@ class Generator_test:
                         if fijado[cont] != "" and fijado[cont] != "^" :
                             a=a[:b]+fijado[cont]+a[(b+1):]
                         b+=(1+len(char))
-
                     cont += 1
 
                 cont=0
                 if i != rows - 1:
                     a += "\n"
+                    
 
             print(a)
             a = ""
+            b=0
 
 gen = Generator_test()
 
