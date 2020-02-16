@@ -13,23 +13,9 @@ class Utiles:
     def randomnumber(length, i1, i2):
         return "".join(str(random.randint(i1, i2)) for i in range(length))
 
-    # Cutre ,creo que con argparse se puede mejorar
-    @staticmethod
-    def check_argument_numbers(arg):
-        cont=0
-        if len(arg) > 0:
-            for i in arg:
-                try:
-                    int(i)
-                except ValueError:
-                    arg=arg[:cont]+"0"+arg[(cont+1):]
-                cont+=1
-            return arg
-
-        return ""
-
     @staticmethod
     def check_argument_list(arg):
+        aux=[]
         if len(arg) > 0:
             if arg[0] == "[" and arg[len(arg) - 1] == "]":
                 aux = arg[1:-1]
@@ -41,17 +27,23 @@ class Utiles:
                         except ValueError:
                             cases[i] = ord(cases[i])
                     return cases
+            else:
+                try:
+                    a=int(arg)
+                except ValueError:
+                    a=0
 
-        return ""
-
+                aux.append(a)
+    
+        return aux
 
 class Generator_test:
     def imp_ristra(
-        self, rows=1, columns=1, char=" ", ncar=1, tipo=0, intercalado="", fijado="" , n=1
+        self, rows, columns, char=" ", ncar=1, tipo=0, intercalado="", fijado="" , n=1
     ):
         a = ""
         cont = 0
-        intercalado=Utiles.check_argument_numbers(intercalado)
+        intercalado=Utiles.check_argument_list(intercalado)
         for k in range(n):
             for i in range(rows):
                 for j in range(columns):
@@ -79,7 +71,6 @@ class Generator_test:
             print(a)
             a = ""
 
-
 gen = Generator_test()
 
 parser = argparse.ArgumentParser()
@@ -97,15 +88,14 @@ args = parser.parse_args()
 
 
 if args.matrix:
-    a1 = int(args.matrix[0])
-    a2 = int(args.matrix[1])
+    a1 = str(args.matrix[0])
+    a2 = str(args.matrix[1])
     a3 = str(args.matrix[2])
     a4 = int(args.matrix[3])
     a5 = int(args.matrix[4])
     a6=""
     a7=""
     a8=[1]
-
 
 if args.intercalado: 
     a6 = str(args.intercalado[0])
@@ -117,6 +107,14 @@ if args.size:
     a8 = str(args.size[0]) 
     a8=Utiles.check_argument_list(a8)
 
+cuentar=0
+cuentac=0
+a1=Utiles.check_argument_list(a1)
+a2=Utiles.check_argument_list(a2)
 for i in a8:
     print(i)
-    gen.imp_ristra(a1, a2, a3, a4, a5, a6, a7 ,int(i))
+    gen.imp_ristra(a1[cuentar], a2[cuentac], a3, a4, a5, a6, a7 ,int(i))
+    if(cuentar<len(a1)-1):
+        cuentar+=1
+    if(cuentac<len(a2)-1):
+        cuentac+=1
