@@ -67,6 +67,7 @@ class Generator_test:
                 cont=0
                 if i != rows - 1:
                     a += "\n"
+                    b = len(a)
                     
 
             print(a)
