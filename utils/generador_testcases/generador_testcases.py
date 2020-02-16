@@ -22,10 +22,7 @@ class Utiles:
                 if len(aux) > 0:
                     cases = aux.split(",")
                     for i in range(len(cases)):
-                        try:
                             cases[i] = int(cases[i])
-                        except ValueError:
-                            cases[i] = ord(cases[i])
                     return cases
             else:
                 try:
@@ -42,8 +39,8 @@ class Generator_test:
         self, rows, columns, char=" ", ncar=1, tipo=0, intercalado="", fijado="" , n=1
     ):
         a = ""
+        b=0
         cont = 0
-        intercalado=Utiles.check_argument_list(intercalado)
         for k in range(n):
             for i in range(rows):
                 for j in range(columns):
@@ -57,17 +54,21 @@ class Generator_test:
                             a += Utiles.randomnumber(ncar, 0, 9)
                         else:
                             a += Utiles.randomword(ncar)
-                    if cont<len(fijado):
-                        if fijado[cont] != "" and fijado[cont] != "^":
-                            a=a[:cont]+fijado[cont]+a[(cont+1):]
-
-                    cont += 1
-                
+ 
                     if j != columns - 1:
                         a += char
+
+                    if cont<len(fijado):
+                        if fijado[cont] != "" and fijado[cont] != "^" :
+                            a=a[:b]+fijado[cont]+a[(b+1):]
+                        b+=(1+len(char))
+
+                    cont += 1
+
                 cont=0
                 if i != rows - 1:
                     a += "\n"
+
             print(a)
             a = ""
 
@@ -99,7 +100,6 @@ if args.matrix:
 
 if args.intercalado: 
     a6 = str(args.intercalado[0])
-
 if args.fijado:
     a7 = str(args.fijado[0])
 
