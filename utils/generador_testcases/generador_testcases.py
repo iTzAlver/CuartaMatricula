@@ -36,39 +36,39 @@ class Utiles:
 
 class Generator_test:
     def imp_ristra(
-        self, rows, columns, char=" ", ncar=1, tipo=0, intercalado="", fijado="" , n=1
+        self, rows, columns, char=" ", ncar=1, tipo=0, iniciot="0" , finalt="0" , fijado="" , inicionf="0" , finalnf="0" , n=1
     ):
         a = ""
         b=0
-        cont = 0
+        ind=0
+        contc = 1
+
         for k in range(n):
             for i in range(rows):
                 for j in range(columns):
-                    if cont < len(intercalado):  # Mejorable
-                        if int(intercalado[cont]) == 0:
-                            a += Utiles.randomnumber(ncar, 0, 9)
-                        else:
-                            a += Utiles.randomword(ncar)
+                    if (contc >= int(iniciot) and contc <= int(finalt)) or tipo == 0:  
+                        a += Utiles.randomnumber(ncar, 0, 9)
                     else:
-                        if tipo == 0:
-                            a += Utiles.randomnumber(ncar, 0, 9)
-                        else:
-                            a += Utiles.randomword(ncar)
+                        a += Utiles.randomword(ncar)
  
                     if j != columns - 1:
                         a += char
+                     
+                    if len(fijado)>0 and ind<len(fijado): 
+                        if (contc >= int(inicionf) and contc <=int(finalnf)):
+                            if fijado != "" and fijado[ind] != "^":
+                                a=a[:b]+fijado[ind]+a[(b+1):]
+                            ind+=1
 
-                    if cont<len(fijado):
-                        if fijado[cont] != "" and fijado[cont] != "^" :
-                            a=a[:b]+fijado[cont]+a[(b+1):]
-                        b+=(1+len(char))
-                    cont += 1
+                    b+=(1+len(char))
+                    contc += 1
 
-                cont=0
                 if i != rows - 1:
                     a += "\n"
                     b = len(a)
                     
+                contc=1
+                ind = 0
 
             print(a)
             a = ""
@@ -80,9 +80,9 @@ parser = argparse.ArgumentParser()
 
 parser.add_argument("-M", type=str, nargs=5, dest="matrix", help="Genera matriz nxn")
 
-parser.add_argument('-i', type=str, nargs=1, dest="intercalado", help='intercalado')
+parser.add_argument('-i', type=str, nargs="*", dest="intercalado", help='intercalado')
 
-parser.add_argument('-f', type=str, nargs=1, dest="fijado", help='fijado')
+parser.add_argument('-f', type=str, nargs="*", dest="fijado", help='fijado')
 
 parser.add_argument('-n', type=str, nargs=1, dest="size", help='n lineas')
 
@@ -96,26 +96,39 @@ if args.matrix:
     a3 = str(args.matrix[2])
     a4 = int(args.matrix[3])
     a5 = int(args.matrix[4])
-    a6=""
-    a7=""
-    a8=[1]
+    a6="0"
+    a7="0"
+    a8=""
+    a9=""
+    a10=""
+    a11=[1]
 
 if args.intercalado: 
     a6 = str(args.intercalado[0])
+    a7 = a6
+    if(len(args.intercalado) == 2):
+        a7 = str(args.intercalado[1])    
+
 if args.fijado:
-    a7 = str(args.fijado[0])
+    a8 = str(args.fijado[0])
+    if(len(args.fijado) == 2):
+        a9 = str(args.fijado[1])
+        a10 = a9
+    if(len(args.fijado) == 3):
+        a9 = str(args.fijado[1])
+        a10 = str(args.fijado[2])
 
 if args.size:
-    a8 = str(args.size[0]) 
-    a8=Utiles.check_argument_list(a8)
+    a11 = str(args.size[0]) 
+    a11=Utiles.check_argument_list(a11)
 
 cuentar=0
 cuentac=0
 a1=Utiles.check_argument_list(a1)
 a2=Utiles.check_argument_list(a2)
-for i in a8:
+for i in a11:
     print(i)
-    gen.imp_ristra(a1[cuentar], a2[cuentac], a3, a4, a5, a6, a7 ,int(i))
+    gen.imp_ristra(a1[cuentar], a2[cuentac], a3, a4, a5, a6, a7 , a8 , a9 , a10 , int(i))
     if(cuentar<len(a1)-1):
         cuentar+=1
     if(cuentac<len(a2)-1):
