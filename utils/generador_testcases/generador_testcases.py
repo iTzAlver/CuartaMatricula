@@ -36,12 +36,14 @@ class Utiles:
 
 class Generator_test:
     def imp_ristra(
-        self, rows, columns, char=" ", ncar=1, tipo=0, iniciot="0" , finalt="0" , fijado="" , inicionf="0" , finalnf="0" , n=1
+        self, rows, columns, char=" ", ncar=1, tipo=0, iniciot="0" , finalt="0" , fijado="" , inicionf="0" , finalnf="0" , nfijado="0" , n=1
     ):
         a = ""
         b=0
-        ind=0
+        ind1=0
+
         contc = 1
+        contf = 1
 
         for k in range(n):
             for i in range(rows):
@@ -54,12 +56,14 @@ class Generator_test:
                     if j != columns - 1:
                         a += char
                      
-                    if len(fijado)>0 and ind<len(fijado): 
-                        if (contc >= int(inicionf) and contc <=int(finalnf)):
-                            if fijado != "" and fijado[ind] != "^":
-                                a=a[:b]+fijado[ind]+a[(b+1):]
-                            ind+=1
-
+                    if len(fijado)>0 and ind1<len(fijado): 
+                        if (contc >= int(inicionf) and contc <=int(finalnf)) and (str(contf) not in nfijado):
+                            if fijado != "" and fijado[ind1] != "^" :
+                                a=a[:b]+fijado[ind1]+a[(b+1):]
+                                
+                            ind1+=1
+                            
+                    
                     b+=(1+len(char))
                     contc += 1
 
@@ -68,11 +72,12 @@ class Generator_test:
                     b = len(a)
                     
                 contc=1
-                ind = 0
+                ind1 = 0
 
             print(a)
             a = ""
             b=0
+            contf+=1
 
 gen = Generator_test()
 
@@ -101,7 +106,8 @@ if args.matrix:
     a8=""
     a9=""
     a10=""
-    a11=[1]
+    a11=""
+    a12=[1]
 
 if args.intercalado: 
     a6 = str(args.intercalado[0])
@@ -117,18 +123,21 @@ if args.fijado:
     if(len(args.fijado) == 3):
         a9 = str(args.fijado[1])
         a10 = str(args.fijado[2])
-
+    if(len(args.fijado) == 4):
+        a9 = str(args.fijado[1])
+        a10 = str(args.fijado[2])
+        a11 = str(args.fijado[3]) 
 if args.size:
-    a11 = str(args.size[0]) 
-    a11=Utiles.check_argument_list(a11)
+    a12 = str(args.size[0]) 
+    a12=Utiles.check_argument_list(a12)
 
 cuentar=0
 cuentac=0
 a1=Utiles.check_argument_list(a1)
 a2=Utiles.check_argument_list(a2)
-for i in a11:
+for i in a12:
     print(i)
-    gen.imp_ristra(a1[cuentar], a2[cuentac], a3, a4, a5, a6, a7 , a8 , a9 , a10 , int(i))
+    gen.imp_ristra(a1[cuentar], a2[cuentac], a3, a4, a5, a6, a7 , a8 , a9 , a10 , a11 , int(i))
     if(cuentar<len(a1)-1):
         cuentar+=1
     if(cuentac<len(a2)-1):
