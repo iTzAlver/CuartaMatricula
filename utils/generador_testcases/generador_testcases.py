@@ -79,6 +79,8 @@ class Generator_test:
             a = ""
             b=0
 
+imprimir_ronda=True
+
 gen = Generator_test()
 
 parser = argparse.ArgumentParser()
@@ -130,13 +132,17 @@ if args.fijado:
 if args.size:
     a12 = str(args.size[0]) 
     a12=Utiles.check_argument_list(a12)
+#if args.nprint:
+    #imprimir_ronda=False
+    
 
 cuentar=0
 cuentac=0
 a1=Utiles.check_argument_list(a1)
 a2=Utiles.check_argument_list(a2)
 for i in a12:
-    print(i)
+    if imprimir_ronda == True:
+        print(i)
     gen.imp_ristra(a1[cuentar], a2[cuentac], a3, a4, a5, a6, a7 , a8 , a9 , a10 , a11 , int(i))
     if(cuentar<len(a1)-1):
         cuentar+=1
