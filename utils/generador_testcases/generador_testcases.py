@@ -73,11 +73,11 @@ class Generator_test:
                     
                 contc=1
                 ind1 = 0
+                contf+=1
 
             print(a)
             a = ""
             b=0
-            contf+=1
 
 gen = Generator_test()
 
