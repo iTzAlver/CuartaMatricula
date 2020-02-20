@@ -89,7 +89,9 @@ parser.add_argument("-i", type=str, nargs="*", dest="intercalado", help='Elige q
 
 parser.add_argument("-f", type=str, nargs="*", dest="fijado", help='fijado de caracteres en algunos caracteres')
 
-parser.add_argument("--np", help="Elimina nº ronda",action="store_true")
+parser.add_argument("--notnlineas", help="Elimina nº ronda",action="store_true")
+
+parser.add_argument("--notncol", help="Elimina nº columnas",action="store_true")
 
 parser.add_argument("-nlineas", type=str, nargs=1, dest="size", help='numero de lineas')
 
@@ -143,8 +145,10 @@ cuentac=0
 a1=Utiles.check_argument_list(a1)
 a2=Utiles.check_argument_list(a2)
 for i in a12:
-    if args.np == False:
+    if args.notnlineas == False:
         print(i)
+    if args.notncol == False:
+        print(a2[cuentar])
     gen.imp_ristra(a1[cuentar], a2[cuentac], a3, a4, a5, a6, a7 , a8 , a9 , a10 , a11 , int(i))
     if(cuentar<len(a1)-1):
         cuentar+=1
