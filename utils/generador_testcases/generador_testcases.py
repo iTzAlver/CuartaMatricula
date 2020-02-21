@@ -69,12 +69,12 @@ parser = argparse.ArgumentParser()
 
 parser.add_argument("-M", type=str, nargs=4, dest="matrix", help="Genera matriz nxn")
 parser.add_argument("-int", type=str, nargs="*", dest="intercalado", help='Elige que posiciones son caracteres o numeros')
-parser.add_argument("-fij", type=str, nargs="*", dest="fijado", help='fijado de caracteres en algunos caracteres')
+parser.add_argument("-fij", type=str, nargs="*", dest="fijado", help='Fijado de caracteres en algunas posiciones')
 parser.add_argument("--nonl", help="No imprime el nº ronda",action="store_true")
 parser.add_argument("--nonc", help="No imprime el nº columnas",action="store_true")
 parser.add_argument("--invn", help="Invierte el orden de los mensajes nº ronda nº columna",action="store_true")
-parser.add_argument("-nlin", type=str, nargs=1, dest="size", help='numero de lineas')
-parser.add_argument("-nchar", type=int, nargs=1, dest="nchar", help='numero de caracteres por columna')
+parser.add_argument("-nlin", type=str, nargs=1, dest="size", help='Numero de lineas')
+parser.add_argument("-nchar", type=int, nargs=1, dest="nchar", help='Numero de caracteres por columna')
 
 args = parser.parse_args()
 
