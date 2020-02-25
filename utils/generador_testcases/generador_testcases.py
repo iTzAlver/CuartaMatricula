@@ -31,7 +31,7 @@ class Utiles:
         return aux
 
 class Generator_test:
-    def imp_ristra(self, rows, columns, char=" ", tipo=0, ncar=1, iniciot="0" , finalt="0" , fijado="" , inicionf="0" , finalnf="0" , nfijado="0" , n=1):
+    def imp_ristra(self, rows, columns, char=" ", ncar=1, inicioint="0" , finalint="0" , fijado="" , inicionf="0" , finalnf="0" , nfijado="0" , n=1):
         a = ""
         b=0
         ind1=0
@@ -40,7 +40,7 @@ class Generator_test:
         for k in range(n):
             for i in range(rows):
                 for j in range(columns):
-                    if (contc >= int(iniciot) and contc <= int(finalt)) or tipo == 0:  
+                    if (contc >= int(inicioint) and contc <= int(finalint)) or args.t == False:  
                         a += Utiles.randomnumber(ncar, 0, 9)
                     else:
                         a += Utiles.randomword(ncar)
@@ -67,13 +67,14 @@ gen = Generator_test()
 
 parser = argparse.ArgumentParser()
 
-parser.add_argument("-M", type=str, nargs=4, dest="matrix", help="Genera matriz nxn")
+parser.add_argument("-M", type=str, nargs=3, dest="matrix", help="Genera matriz nxn")
+parser.add_argument("--t", help='Cambia numeros por caracteres',action="store_true")
 parser.add_argument("-int", type=str, nargs="*", dest="intercalado", help='Elige que posiciones son caracteres o numeros')
 parser.add_argument("-fij", type=str, nargs="*", dest="fijado", help='Fijado de caracteres en algunas posiciones')
 parser.add_argument("--nonl", help="No imprime el nº ronda",action="store_true")
 parser.add_argument("--nonc", help="No imprime el nº columnas",action="store_true")
 parser.add_argument("--invn", help="Invierte el orden de los mensajes nº ronda nº columna",action="store_true")
-parser.add_argument("-nlin", type=str, nargs=1, dest="size", help='Numero de lineas')
+parser.add_argument("-n", type=str, nargs=1, dest="size", help='Numero de lineas')
 parser.add_argument("-nchar", type=int, nargs=1, dest="nchar", help='Numero de caracteres por columna')
 
 args = parser.parse_args()
@@ -82,48 +83,49 @@ if args.matrix:
     a1 = str(args.matrix[0])
     a2 = str(args.matrix[1])
     a3 = str(args.matrix[2])
-    a4 = int(args.matrix[3])
-    a5 = 1
+    a4 = 1
+    a5="0"
     a6="0"
-    a7="0"
+    a7=""
     a8=""
     a9=""
     a10=""
-    a11=""
-    a12=[1]
+    a11=[1]
+
 
 if args.nchar:
-    a5 = int(args.nchar[0])
+    a4 = int(args.nchar[0])
 
 if args.intercalado: 
-    a6 = str(args.intercalado[0])
-    a7 = a6
+    a5 = str(args.intercalado[0])
+    a6 = a5
     if(len(args.intercalado) == 2):
-        a7 = str(args.intercalado[1])    
+        a6 = str(args.intercalado[1])    
 
 if args.fijado:
-    a8 = str(args.fijado[0])
+    a7 = str(args.fijado[0])
     if(len(args.fijado) == 2):
-        a9 = str(args.fijado[1])
-        a10 = a9
+        a8 = str(args.fijado[1])
+        a9 = a8
     if(len(args.fijado) == 3):
-        a9 = str(args.fijado[1])
-        a10 = str(args.fijado[2])
+        a8 = str(args.fijado[1])
+        a9 = str(args.fijado[2])
     if(len(args.fijado) == 4):
-        a9 = str(args.fijado[1])
-        a10 = str(args.fijado[2])
-        a11 = str(args.fijado[3]) 
+        a8 = str(args.fijado[1])
+        a9 = str(args.fijado[2])
+        a10 = str(args.fijado[3]) 
 
 if args.size:
-    a12 = str(args.size[0]) 
-    a12=Utiles.check_argument_list(a12)
+    a11 = str(args.size[0]) 
+    a11=Utiles.check_argument_list(a11)
 
 cuentar=0
 cuentac=0
 inv=False
 a1=Utiles.check_argument_list(a1)
 a2=Utiles.check_argument_list(a2)
-for i in a12:
+cuenta=min(len(a1)-1,len(a2)-1)
+for i in a11:
     if args.invn == True:
         print(a2[cuentar])
         print(i)
@@ -132,8 +134,8 @@ for i in a12:
         print(i)
     if args.nonc == False and not inv:
         print(a2[cuentar])
-    gen.imp_ristra(a1[cuentar], a2[cuentac], a3, a4, a5, a6, a7 , a8 , a9 , a10 , a11 , int(i))
-    if(cuentar<len(a1)-1):
+    gen.imp_ristra(a1[cuentar], a2[cuentac], a3, a4, a5, a6, a7 , a8 , a9 , a10 , int(i))
+    if(cuentar<cuenta):
         cuentar+=1
-    if(cuentac<len(a2)-1):
+    if(cuentac<cuenta):
         cuentac+=1
