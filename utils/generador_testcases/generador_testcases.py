@@ -31,7 +31,7 @@ class Utiles:
         return aux
 
 class Generator_test:
-    def imp_ristra(self, rows, columns, char=" ", ncar=1, inicioint="0" , finalint="0" , fijado="" , inicionf="0" , finalnf="0" , nfijado="0" , n=1):
+    def imp_ristra(self, rows, columns, char=" ", ncar=1, inicioint="0" , finalint="0" , fijado="" , inicionf="0" , finalnf="0" , nofijado="0" , n=1):
         a = ""
         b=0
         ind1=0
@@ -47,7 +47,7 @@ class Generator_test:
                     if j != columns - 1:
                         a += char
                     if len(fijado)>0 and ind1<len(fijado): 
-                        if (contc >= int(inicionf) and contc <=int(finalnf)) and (str(contf) not in nfijado):
+                        if (contc >= int(inicionf) and contc <=int(finalnf)) and (str(contf) not in nofijado):
                             if fijado != "" and fijado[ind1] != "^" :
                                 a=a[:b]+fijado[ind1]+a[(b+1):]
                             ind1+=1
@@ -69,8 +69,9 @@ parser = argparse.ArgumentParser()
 
 parser.add_argument("-M", type=str, nargs=3, dest="matrix", help="Genera matriz nxn")
 parser.add_argument("--t", help='Cambia numeros por caracteres',action="store_true")
-parser.add_argument("-int", type=str, nargs="*", dest="intercalado", help='Elige que posiciones son caracteres o numeros')
 parser.add_argument("-fij", type=str, nargs="*", dest="fijado", help='Fijado de caracteres en algunas posiciones')
+parser.add_argument("-no", type=str, nargs=1,dest="nfijado",help='Fijado de caracteres en algunas posiciones')
+parser.add_argument("-int", type=str, nargs="*", dest="intercalado", help='Elige que posiciones son caracteres o numeros')
 parser.add_argument("--nonl", help="No imprime el nº ronda",action="store_true")
 parser.add_argument("--nonc", help="No imprime el nº columnas",action="store_true")
 parser.add_argument("--invn", help="Invierte el orden de los mensajes nº ronda nº columna",action="store_true")
@@ -107,13 +108,11 @@ if args.fijado:
     if(len(args.fijado) == 2):
         a8 = str(args.fijado[1])
         a9 = a8
-    if(len(args.fijado) == 3):
+    if(len(args.fijado) ==3):
         a8 = str(args.fijado[1])
         a9 = str(args.fijado[2])
-    if(len(args.fijado) == 4):
-        a8 = str(args.fijado[1])
-        a9 = str(args.fijado[2])
-        a10 = str(args.fijado[3]) 
+        if(args.nfijado):
+            a10 = str(args.nfijado[0]) 
 
 if args.size:
     a11 = str(args.size[0]) 
