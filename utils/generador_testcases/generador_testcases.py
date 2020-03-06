@@ -46,7 +46,7 @@ class Utiles:
         
 
 class Generator_test:
-    def imp_ristra(self, rows, columns, char=" ", ncar=1, inicioint="0" , finalint="0" , fijado="" , inicionf="0" , finalnf="0" , nofijado="0" , n=1):
+    def imp_ristra(self, rows, columns, char, ncar, inicioint, finalint, fijado, inicionf, finalnf, nofijado,n):
         a = ""
         texto = ""
         b=0
@@ -118,33 +118,34 @@ elif args.matrix:
     a5="0"
     a6="0"
     a7=""
-    a8=""
-    a9=""
+    a8="1"
+    a9="1"
     a10=""
     a11=[1]
 
     if args.nchar:
-        a4 = int(args.nchar[0])
+        a4 = args.nchar[0]
 
     if args.intercalado: 
-        a5 = str(args.intercalado[0])
+        a5 = args.intercalado[0]
         a6 = a5
         if(len(args.intercalado) == 2):
-            a6 = str(args.intercalado[1])    
+            a6 = args.intercalado[1]    
 
     if args.fijado:
-        a7 = str(args.fijado[0])
+        a7 = args.fijado[0]
+        a9 = len(args.fijado[0])
         if(len(args.fijado) == 2):
-            a8 = str(args.fijado[1])
+            a8 = args.fijado[1]
             a9 = a8
         if(len(args.fijado) ==3):
-            a8 = str(args.fijado[1])
-            a9 = str(args.fijado[2])
+            a8 = args.fijado[1]
+            a9 = args.fijado[2]
             if(args.nfijado):
-                a10 = str(args.nfijado[0]) 
+                a10 = args.nfijado[0]
 
     if args.size:
-        a11 = str(args.size[0]) 
+        a11 = args.size[0]
         a11=Utiles.check_argument_list(a11)
 
     cuentar=0
@@ -152,23 +153,30 @@ elif args.matrix:
     inv=False
     cuenta=min(len(a1)-1,len(a2)-1)
     texto_a_ejecutar=""
+    cont=0
     for i in a11:
+
         if args.invn == True:
-            print(a2[cuentar])
-            print(i)
+            texto_a_ejecutar+=str(a2[cuentar])+"\n"
+            texto_a_ejecutar+=str(i)+"\n"
             inv=True
+
         if args.nonl == False and not inv:
-            print(i)
+            texto_a_ejecutar+=str(i)+"\n"
         if args.nonc == False and not inv:
-            print(a2[cuentar])
-        text=gen.imp_ristra(a1[cuentar], a2[cuentac], a3, a4, a5, a6, a7 , a8 , a9 , a10 , int(i))
-        print(text)
+            texto_a_ejecutar+=str(a2[cuentar])+"\n"
+
+        texto_a_ejecutar+=gen.imp_ristra(a1[cuentar], a2[cuentac], a3, a4, a5, a6, a7 , a8 , a9 , a10 , int(i))
+        if(cont<len(a11)-1):
+            texto_a_ejecutar+="\n"
         if(cuentar<cuenta):
             cuentar+=1
         if(cuentac<cuenta):
             cuentac+=1
-        texto_a_ejecutar+=text
+        cont+=1
 
+    print(texto_a_ejecutar)
+    #print("\n")
     if args.ejecuta:
         ruta=args.ejecuta[0]
         p = subprocess.run([os.getcwd()+"\\"+ ruta],text=True, input=texto_a_ejecutar)
