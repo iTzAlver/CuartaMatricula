@@ -1,6 +1,8 @@
 import argparse
 import random
 import string
+import subprocess
+import os
 
 class Utiles:
     @staticmethod
@@ -30,9 +32,23 @@ class Utiles:
                 aux.append(a)
         return aux
 
+    @staticmethod
+    def read_file(rutatexto=""):
+        f = open(os.getcwd()+"\\"+ rutatexto, "r")
+        t=""
+        while(True):
+            linea = f.readline()
+            if not linea:
+                break
+            t+=linea
+        f.close()
+        return t
+        
+
 class Generator_test:
     def imp_ristra(self, rows, columns, char=" ", ncar=1, inicioint="0" , finalint="0" , fijado="" , inicionf="0" , finalnf="0" , nofijado="0" , n=1):
         a = ""
+        texto = ""
         b=0
         ind1=0
         contc = 1
@@ -59,9 +75,14 @@ class Generator_test:
                 contc=1
                 ind1 = 0
                 contf+=1
-            print(a)
+
+            texto+=a
+            if k < n-1:
+                texto+="\n"
             a = ""
             b=0
+        return texto
+
 
 gen = Generator_test()
 
@@ -69,6 +90,8 @@ parser = argparse.ArgumentParser()
 
 parser.add_argument("-M", type=str, nargs=3, dest="matrix", help="Genera matriz nxn")
 parser.add_argument("--t", help='Cambia numeros por caracteres',action="store_true")
+parser.add_argument("-f", type=str, nargs=1, dest="ejecuta", help='Crea un subproceso del ejecutable con el que se quieren probar los casos')
+parser.add_argument("-fno", type=str, nargs=2, dest="ejecuta_casos_externos", help='Crea un subproceso del ejecutable ,pero se alimenta con casos externos')
 parser.add_argument("-fij", type=str, nargs="*", dest="fijado", help='Fijado de caracteres en algunas posiciones')
 parser.add_argument("-no", type=str, nargs=1,dest="nfijado",help='Fijado de caracteres en algunas posiciones')
 parser.add_argument("-int", type=str, nargs="*", dest="intercalado", help='Elige que posiciones son caracteres o numeros')
@@ -80,10 +103,17 @@ parser.add_argument("-nchar", type=int, nargs=1, dest="nchar", help='Numero de c
 
 args = parser.parse_args()
 
-if args.matrix:
-    a1 = str(args.matrix[0])
-    a2 = str(args.matrix[1])
-    a3 = str(args.matrix[2])
+if args.ejecuta_casos_externos:
+    ruta=args.ejecuta_casos_externos[0]
+    rutatexto=args.ejecuta_casos_externos[1]
+    t=Utiles.read_file(rutatexto)
+    p = subprocess.run([os.getcwd()+"\\"+ ruta],text=True, input=t)
+
+
+elif args.matrix:
+    a1 = Utiles.check_argument_list(args.matrix[0])
+    a2 = Utiles.check_argument_list(args.matrix[1])
+    a3 = args.matrix[2]
     a4 = 1
     a5="0"
     a6="0"
@@ -93,48 +123,52 @@ if args.matrix:
     a10=""
     a11=[1]
 
+    if args.nchar:
+        a4 = int(args.nchar[0])
 
-if args.nchar:
-    a4 = int(args.nchar[0])
+    if args.intercalado: 
+        a5 = str(args.intercalado[0])
+        a6 = a5
+        if(len(args.intercalado) == 2):
+            a6 = str(args.intercalado[1])    
 
-if args.intercalado: 
-    a5 = str(args.intercalado[0])
-    a6 = a5
-    if(len(args.intercalado) == 2):
-        a6 = str(args.intercalado[1])    
+    if args.fijado:
+        a7 = str(args.fijado[0])
+        if(len(args.fijado) == 2):
+            a8 = str(args.fijado[1])
+            a9 = a8
+        if(len(args.fijado) ==3):
+            a8 = str(args.fijado[1])
+            a9 = str(args.fijado[2])
+            if(args.nfijado):
+                a10 = str(args.nfijado[0]) 
 
-if args.fijado:
-    a7 = str(args.fijado[0])
-    if(len(args.fijado) == 2):
-        a8 = str(args.fijado[1])
-        a9 = a8
-    if(len(args.fijado) ==3):
-        a8 = str(args.fijado[1])
-        a9 = str(args.fijado[2])
-        if(args.nfijado):
-            a10 = str(args.nfijado[0]) 
+    if args.size:
+        a11 = str(args.size[0]) 
+        a11=Utiles.check_argument_list(a11)
 
-if args.size:
-    a11 = str(args.size[0]) 
-    a11=Utiles.check_argument_list(a11)
+    cuentar=0
+    cuentac=0
+    inv=False
+    cuenta=min(len(a1)-1,len(a2)-1)
+    texto_a_ejecutar=""
+    for i in a11:
+        if args.invn == True:
+            print(a2[cuentar])
+            print(i)
+            inv=True
+        if args.nonl == False and not inv:
+            print(i)
+        if args.nonc == False and not inv:
+            print(a2[cuentar])
+        text=gen.imp_ristra(a1[cuentar], a2[cuentac], a3, a4, a5, a6, a7 , a8 , a9 , a10 , int(i))
+        print(text)
+        if(cuentar<cuenta):
+            cuentar+=1
+        if(cuentac<cuenta):
+            cuentac+=1
+        texto_a_ejecutar+=text
 
-cuentar=0
-cuentac=0
-inv=False
-a1=Utiles.check_argument_list(a1)
-a2=Utiles.check_argument_list(a2)
-cuenta=min(len(a1)-1,len(a2)-1)
-for i in a11:
-    if args.invn == True:
-        print(a2[cuentar])
-        print(i)
-        inv=True
-    if args.nonl == False and not inv:
-        print(i)
-    if args.nonc == False and not inv:
-        print(a2[cuentar])
-    gen.imp_ristra(a1[cuentar], a2[cuentac], a3, a4, a5, a6, a7 , a8 , a9 , a10 , int(i))
-    if(cuentar<cuenta):
-        cuentar+=1
-    if(cuentac<cuenta):
-        cuentac+=1
+    if args.ejecuta:
+        ruta=args.ejecuta[0]
+        p = subprocess.run([os.getcwd()+"\\"+ ruta],text=True, input=texto_a_ejecutar)
