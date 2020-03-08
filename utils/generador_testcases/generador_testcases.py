@@ -46,43 +46,40 @@ class Utiles:
         
 
 class Generator_test:
-    def imp_ristra(self, rows, columns, char, ncar, inicioint, finalint, fijado, inicionf, finalnf, nofijado,n):
+    def imp_ristra(self, rows, columns, char, ncar, inicioint, finalint,fijado,iniciof,lineanofijada,n):
         a = ""
         texto = ""
         b=0
         ind1=0
-        contc = 1
-        contf = 1
         for k in range(n):
             for i in range(rows):
                 for j in range(columns):
-                    if (contc >= int(inicioint) and contc <= int(finalint)) or args.t == False:  
+                    if (j+1 >= int(inicioint) and j+1 <= int(finalint)) or args.t == False:  
                         a += Utiles.randomnumber(ncar, 0, 9)
                     else:
                         a += Utiles.randomword(ncar)
                     if j != columns - 1:
                         a += char
+
                     if len(fijado)>0 and ind1<len(fijado): 
-                        if (contc >= int(inicionf) and contc <=int(finalnf)) and (str(contf) not in nofijado):
+                        if (j+1 >= int(iniciof)) and (str(i) not in lineanofijada):
                             if fijado != "" and fijado[ind1] != "^" :
                                 a=a[:b]+fijado[ind1]+a[(b+1):]
                             ind1+=1
                     b+=(1+len(char))
-                    contc += 1
+
                 if i != rows - 1:
                     a += "\n"
                     b = len(a)
-                contc=1
-                ind1 = 0
-                contf+=1
-
+                ind1=0
             texto+=a
             if k < n-1:
                 texto+="\n"
             a = ""
             b=0
+        
         return texto
-
+        
 
 gen = Generator_test()
 
@@ -93,6 +90,7 @@ parser.add_argument("--t", help='Cambia numeros por caracteres',action="store_tr
 parser.add_argument("-f", type=str, nargs=1, dest="ejecuta", help='Crea un subproceso del ejecutable con el que se quieren probar los casos')
 parser.add_argument("-fno", type=str, nargs=2, dest="ejecuta_casos_externos", help='Crea un subproceso del ejecutable ,pero se alimenta con casos externos')
 parser.add_argument("-fij", type=str, nargs="*", dest="fijado", help='Fijado de caracteres en algunas posiciones')
+parser.add_argument("-diag", type=str, nargs="*", dest="diag", help='Fijado de caracteres en diagonales')
 parser.add_argument("-no", type=str, nargs=1,dest="nfijado",help='Fijado de caracteres en algunas posiciones')
 parser.add_argument("-int", type=str, nargs="*", dest="intercalado", help='Elige que posiciones son caracteres o numeros')
 parser.add_argument("--nonl", help="No imprime el nº ronda",action="store_true")
@@ -111,63 +109,64 @@ if args.ejecuta_casos_externos:
 
 
 elif args.matrix:
-    a1 = Utiles.check_argument_list(args.matrix[0])
-    a2 = Utiles.check_argument_list(args.matrix[1])
-    a3 = args.matrix[2]
-    a4 = 1
-    a5="0"
-    a6="0"
-    a7=""
-    a8="1"
-    a9="1"
-    a10=""
-    a11=[1]
+    rows = Utiles.check_argument_list(args.matrix[0])
+    columns = Utiles.check_argument_list(args.matrix[1])
+    char = args.matrix[2]
+    nchar = 1
+    inicioint="0"
+    finint="0"
+    fijado=""
+    iniciofijado="1"
+    lineanofijada=""
+    diag=""
+    iniciodiag=""
+    repeticiones=[1]
 
     if args.nchar:
-        a4 = args.nchar[0]
+        nchar = args.nchar[0]
 
     if args.intercalado: 
-        a5 = args.intercalado[0]
-        a6 = a5
+        inicioint = args.intercalado[0]
+        finint = inicioint
         if(len(args.intercalado) == 2):
-            a6 = args.intercalado[1]    
+            finint = args.intercalado[1]    
 
     if args.fijado:
-        a7 = args.fijado[0]
-        a9 = len(args.fijado[0])
+        fijado = args.fijado[0]
         if(len(args.fijado) == 2):
-            a8 = args.fijado[1]
-            a9 = a8
-        if(len(args.fijado) ==3):
-            a8 = args.fijado[1]
-            a9 = args.fijado[2]
+            iniciofijado = args.fijado[1]      
             if(args.nfijado):
-                a10 = args.nfijado[0]
+                a = args.nfijado[0]
+
+        if args.diag:
+            diag=args.diag[0]
+            iniciodiag=args.diag[1]
 
     if args.size:
-        a11 = args.size[0]
-        a11=Utiles.check_argument_list(a11)
+        repeticiones = args.size[0]
+        repeticiones=Utiles.check_argument_list(repeticiones)
 
     cuentar=0
     cuentac=0
     inv=False
-    cuenta=min(len(a1)-1,len(a2)-1)
+    cuenta=min(len(rows)-1,len(columns)-1)
     texto_a_ejecutar=""
     cont=0
-    for i in a11:
+    for i in repeticiones:
 
         if args.invn == True:
-            texto_a_ejecutar+=str(a2[cuentar])+"\n"
+            texto_a_ejecutar+=str(columns[cuentar])+"\n"
             texto_a_ejecutar+=str(i)+"\n"
             inv=True
 
         if args.nonl == False and not inv:
             texto_a_ejecutar+=str(i)+"\n"
         if args.nonc == False and not inv:
-            texto_a_ejecutar+=str(a2[cuentar])+"\n"
+            texto_a_ejecutar+=str(columns[cuentar])+"\n"
 
-        texto_a_ejecutar+=gen.imp_ristra(a1[cuentar], a2[cuentac], a3, a4, a5, a6, a7 , a8 , a9 , a10 , int(i))
-        if(cont<len(a11)-1):
+        texto_a_ejecutar+=gen.imp_ristra(rows[cuentar], columns[cuentac], char, nchar, inicioint, finint, fijado, iniciofijado, lineanofijada, int(i))
+
+        if(cont<len(repeticiones)-1):
             texto_a_ejecutar+="\n"
         if(cuentar<cuenta):
             cuentar+=1
