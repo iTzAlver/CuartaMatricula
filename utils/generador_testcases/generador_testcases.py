@@ -46,38 +46,35 @@ class Utiles:
         
 
 class Generator_test:
-    def imp_ristra(self, rows, columns, char, ncar, inicioint, finalint,fijado,iniciof,lineanofijada,n):
+    def imp_ristra(self, rows, columns, char, ncar, inicioint, finalint,fijado,iniciof,lineanofijada, iniciodiag,n):
         a = ""
         texto = ""
-        b=0
         ind1=0
         for k in range(n):
             for i in range(rows):
                 for j in range(columns):
-                    if (j+1 >= int(inicioint) and j+1 <= int(finalint)) or args.t == False:  
+
+                    if(fijado != "" and ind1<len(fijado)) and ((j+1 >= int(iniciof)) and (str(i) not in lineanofijada)): 
+                        if (fijado[ind1] != "^"):
+                            a+=fijado[ind1]
+                        ind1+=1
+
+                    elif((j+1 >= int(inicioint) and j+1 <= int(finalint)) or args.t == False):  
                         a += Utiles.randomnumber(ncar, 0, 9)
                     else:
                         a += Utiles.randomword(ncar)
+
                     if j != columns - 1:
                         a += char
 
-                    if len(fijado)>0 and ind1<len(fijado): 
-                        if (j+1 >= int(iniciof)) and (str(i) not in lineanofijada):
-                            if fijado != "" and fijado[ind1] != "^" :
-                                a=a[:b]+fijado[ind1]+a[(b+1):]
-                            ind1+=1
-                    b+=(1+len(char))
-
                 if i != rows - 1:
                     a += "\n"
-                    b = len(a)
                 ind1=0
             texto+=a
             if k < n-1:
                 texto+="\n"
             a = ""
-            b=0
-        
+                
         return texto
         
 
@@ -139,8 +136,7 @@ elif args.matrix:
                 a = args.nfijado[0]
 
         if args.diag:
-            diag=args.diag[0]
-            iniciodiag=args.diag[1]
+            iniciodiag=args.diag[0]
 
     if args.size:
         repeticiones = args.size[0]
@@ -164,7 +160,7 @@ elif args.matrix:
         if args.nonc == False and not inv:
             texto_a_ejecutar+=str(columns[cuentar])+"\n"
 
-        texto_a_ejecutar+=gen.imp_ristra(rows[cuentar], columns[cuentac], char, nchar, inicioint, finint, fijado, iniciofijado, lineanofijada, int(i))
+        texto_a_ejecutar+=gen.imp_ristra(rows[cuentar], columns[cuentac], char, nchar, inicioint, finint, fijado, iniciofijado, lineanofijada, iniciodiag, int(i))
 
         if(cont<len(repeticiones)-1):
             texto_a_ejecutar+="\n"
