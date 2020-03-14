@@ -57,11 +57,8 @@ class Generator_test:
             for i in range(rows):
                 for j in range(columns):
 
-                    if not args.diagonales:
-                        contp.append(j)
-
                     if(fijado != "" and indf<len(fijado)):
-                        if((j+1 >= int(iniciof)) and (str(i) not in lineanofijada)) and (j in contp): 
+                        if((j+1 >= int(iniciof)) and (str(i) not in lineanofijada)) and ((j in contp) or not args.diagonales): 
                             if (fijado[indf] != "^"):
                                 a+=fijado[indf]
                                 notf=True
@@ -87,10 +84,12 @@ class Generator_test:
                         for l in range(len(contp)):
                             contp[l]+=1
                         indf+=1
+                    else:
+                        indf=0
 
                 if i+1 in idiags:
                     contp.append(0)
-
+            
             texto+=a
             if k < n-1:
                 texto+="\n"
@@ -168,8 +167,11 @@ elif args.matrix:
         if(len(args.diagonales) == 2):
             idiags=args.diagonales[1]
             idiags=Utiles.check_argument_list(idiags)
-            for i in range(len(idiags)):
-                idiags[i]-=1
+            if idiags != [0]:
+                for i in range(len(idiags)):
+                    idiags[i]-=1
+            else:
+                idiags=[]
 
     if args.size:
         repeticiones = args.size[0]
