@@ -9,6 +9,7 @@ class Utiles:
     def randomword(length):
         letters = string.ascii_lowercase
         return "".join(random.choice(letters) for i in range(length))
+
     @staticmethod
     def randomnumber(length, i1, i2):
         return "".join(str(random.randint(i1, i2)) for i in range(length))
@@ -22,7 +23,7 @@ class Utiles:
                 if len(aux) > 0:
                     cases = aux.split(",")
                     for i in range(len(cases)):
-                            cases[i] = int(cases[i])
+                        cases[i] = int(cases[i])
                     return cases
             else:
                 try:
@@ -44,32 +45,52 @@ class Utiles:
         f.close()
         return t
         
-
 class Generator_test:
-    def imp_ristra(self, rows, columns, char, ncar, inicioint, finalint,fijado,iniciof,lineanofijada, iniciodiag,n):
+    def imp_ristra(self, rows, columns, char, ncar, inicioint, finalint, fijado, iniciof, lineanofijada, idiagp, idiags, n):
         a = ""
         texto = ""
-        ind1=0
+        indf=0
+        contp=idiagp
+
+        notf=False
         for k in range(n):
             for i in range(rows):
                 for j in range(columns):
 
-                    if(fijado != "" and ind1<len(fijado)) and ((j+1 >= int(iniciof)) and (str(i) not in lineanofijada)): 
-                        if (fijado[ind1] != "^"):
-                            a+=fijado[ind1]
-                        ind1+=1
+                    if not args.diagonales:
+                        contp.append(j)
 
-                    elif((j+1 >= int(inicioint) and j+1 <= int(finalint)) or args.t == False):  
-                        a += Utiles.randomnumber(ncar, 0, 9)
-                    else:
-                        a += Utiles.randomword(ncar)
+                    if(fijado != "" and indf<len(fijado)):
+                        if((j+1 >= int(iniciof)) and (str(i) not in lineanofijada)) and (j in contp): 
+                            if (fijado[indf] != "^"):
+                                a+=fijado[indf]
+                                notf=True
+                            else:
+                                notf=False
+                            
+                            if not args.diagonales:
+                                indf+=1
+                            
+                    if not notf:
+                        if((j+1 >= int(inicioint) and j+1 <= int(finalint)) or args.t == False):  
+                            a += Utiles.randomnumber(ncar, 0, 9)
+                        else:
+                            a += Utiles.randomword(ncar)
 
                     if j != columns - 1:
                         a += char
+                    notf=False
 
                 if i != rows - 1:
                     a += "\n"
-                ind1=0
+                    if args.diagonales:
+                        for l in range(len(contp)):
+                            contp[l]+=1
+                        indf+=1
+
+                if i+1 in idiags:
+                    contp.append(0)
+
             texto+=a
             if k < n-1:
                 texto+="\n"
@@ -87,7 +108,8 @@ parser.add_argument("--t", help='Cambia numeros por caracteres',action="store_tr
 parser.add_argument("-f", type=str, nargs=1, dest="ejecuta", help='Crea un subproceso del ejecutable con el que se quieren probar los casos')
 parser.add_argument("-fno", type=str, nargs=2, dest="ejecuta_casos_externos", help='Crea un subproceso del ejecutable ,pero se alimenta con casos externos')
 parser.add_argument("-fij", type=str, nargs="*", dest="fijado", help='Fijado de caracteres en algunas posiciones')
-parser.add_argument("-diag", type=str, nargs="*", dest="diag", help='Fijado de caracteres en diagonales')
+parser.add_argument("-diag", type=str, nargs='*', dest="diagonales",help='Fijado de caracteres en diagonales')
+parser.add_argument("-invdiag", type=str, nargs='*', dest="invdiag",help='Fijado de caracteres en diagonales')
 parser.add_argument("-no", type=str, nargs=1,dest="nfijado",help='Fijado de caracteres en algunas posiciones')
 parser.add_argument("-int", type=str, nargs="*", dest="intercalado", help='Elige que posiciones son caracteres o numeros')
 parser.add_argument("--nonl", help="No imprime el nº ronda",action="store_true")
@@ -115,8 +137,8 @@ elif args.matrix:
     fijado=""
     iniciofijado="1"
     lineanofijada=""
-    diag=""
-    iniciodiag=""
+    idiagp=[]
+    idiags=[]
     repeticiones=[1]
 
     if args.nchar:
@@ -135,8 +157,19 @@ elif args.matrix:
             if(args.nfijado):
                 a = args.nfijado[0]
 
-        if args.diag:
-            iniciodiag=args.diag[0]
+    if args.diagonales:
+        idiagp=args.diagonales[0]
+        idiagp=Utiles.check_argument_list(idiagp)
+        if idiagp != [0]:
+            for i in range(len(idiagp)):
+                idiagp[i]-=1
+        else:
+            idiagp=[]
+        if(len(args.diagonales) == 2):
+            idiags=args.diagonales[1]
+            idiags=Utiles.check_argument_list(idiags)
+            for i in range(len(idiags)):
+                idiags[i]-=1
 
     if args.size:
         repeticiones = args.size[0]
@@ -147,7 +180,7 @@ elif args.matrix:
     inv=False
     cuenta=min(len(rows)-1,len(columns)-1)
     texto_a_ejecutar=""
-    cont=0
+    contp=0
     for i in repeticiones:
 
         if args.invn == True:
@@ -160,15 +193,15 @@ elif args.matrix:
         if args.nonc == False and not inv:
             texto_a_ejecutar+=str(columns[cuentar])+"\n"
 
-        texto_a_ejecutar+=gen.imp_ristra(rows[cuentar], columns[cuentac], char, nchar, inicioint, finint, fijado, iniciofijado, lineanofijada, iniciodiag, int(i))
+        texto_a_ejecutar+=gen.imp_ristra(rows[cuentar], columns[cuentac], char, nchar, inicioint, finint, fijado, iniciofijado, lineanofijada, idiagp, idiags,int(i))
 
-        if(cont<len(repeticiones)-1):
+        if(contp<len(repeticiones)-1):
             texto_a_ejecutar+="\n"
         if(cuentar<cuenta):
             cuentar+=1
         if(cuentac<cuenta):
             cuentac+=1
-        cont+=1
+        contp+=1
 
     print(texto_a_ejecutar)
     #print("\n")
