@@ -45,60 +45,63 @@ class Utiles:
         f.close()
         return t
         
-class Generator_test:
-    def imp_ristra(self, rows, columns, char, ncar, inicioint, finalint, fijado, iniciof, lineanofijada, idiagp, idiags, n):
-        a = ""
-        texto = ""
-        indf=0
-        contp=idiagp
 
-        notf=False
-        for k in range(n):
-            for i in range(rows):
-                for j in range(columns):
+def imp_ristra(rows, columns, char, ncar, inicioint, finalint, fijado, iniciof, lineanofijada, idiagp, idiags, idiagss, n):
+    a = ""
+    texto = ""
+    indf=0
+    contp=idiagp
 
-                    if(fijado != "" and indf<len(fijado)):
-                        if((j+1 >= int(iniciof)) and (str(i) not in lineanofijada)) and ((j in contp) or not args.diagonales): 
-                            if (fijado[indf] != "^"):
-                                a+=fijado[indf]
-                                notf=True
-                            else:
-                                notf=False
-                            
-                            if not args.diagonales:
-                                indf+=1
-                            
-                    if not notf:
-                        if((j+1 >= int(inicioint) and j+1 <= int(finalint)) or args.t == False):  
-                            a += Utiles.randomnumber(ncar, 0, 9)
+    notf=False
+    for k in range(n):
+        for i in range(rows):
+            for j in range(columns):
+                if(fijado != "" and indf<len(fijado)):
+
+                    if((j+1 >= int(iniciof)) and (str(i) not in lineanofijada)) and ((j in contp) or not args.diagonales): 
+                        if (fijado[indf] != "^"):
+                            a+=fijado[indf]
+                            notf=True
                         else:
-                            a += Utiles.randomword(ncar)
-
-                    if j != columns - 1:
-                        a += char
-                    notf=False
-
-                if i != rows - 1:
-                    a += "\n"
-                    if args.diagonales:
-                        for l in range(len(contp)):
-                            contp[l]+=1
-                        indf+=1
+                            notf=False
+                        
+                        if not args.diagonales:
+                            indf+=1    
+                if not notf:
+                    if((j+1 >= int(inicioint) and j+1 <= int(finalint)) or args.t == False):  
+                        a += Utiles.randomnumber(ncar, 0, 9)
                     else:
-                        indf=0
+                        a += Utiles.randomword(ncar)
 
-                if i+1 in idiags:
-                    contp.append(0)
-            
-            texto+=a
-            if k < n-1:
-                texto+="\n"
-            a = ""
+                if j != columns - 1:
+                    a += char
+                notf=False
+
+            if i != rows - 1:
+                a += "\n"
+                if args.diagonales:
+                    for l in range(len(contp)):
+                        if not args.invdiag:
+                            contp[l]+=1
+                        else:
+                            contp[l]-=1
+                    indf+=1
+                else:
+                    indf=0
+
+            if i+1 in idiags:
+                contp.append(0)
                 
-        return texto
-        
+            if i+1 in idiagss and j == columns-1 and args.invdiag:
+                contp.append(columns-1)
 
-gen = Generator_test()
+        texto+=a
+        if k < n-1:
+            texto+="\n"
+        a = ""
+            
+    return texto
+        
 
 parser = argparse.ArgumentParser()
 
@@ -108,7 +111,7 @@ parser.add_argument("-f", type=str, nargs=1, dest="ejecuta", help='Crea un subpr
 parser.add_argument("-fno", type=str, nargs=2, dest="ejecuta_casos_externos", help='Crea un subproceso del ejecutable ,pero se alimenta con casos externos')
 parser.add_argument("-fij", type=str, nargs="*", dest="fijado", help='Fijado de caracteres en algunas posiciones')
 parser.add_argument("-diag", type=str, nargs='*', dest="diagonales",help='Fijado de caracteres en diagonales')
-parser.add_argument("-invdiag", type=str, nargs='*', dest="invdiag",help='Fijado de caracteres en diagonales')
+parser.add_argument("--invdiag", help="No imprime el nº ronda",action="store_true")
 parser.add_argument("-no", type=str, nargs=1,dest="nfijado",help='Fijado de caracteres en algunas posiciones')
 parser.add_argument("-int", type=str, nargs="*", dest="intercalado", help='Elige que posiciones son caracteres o numeros')
 parser.add_argument("--nonl", help="No imprime el nº ronda",action="store_true")
@@ -138,6 +141,7 @@ elif args.matrix:
     lineanofijada=""
     idiagp=[]
     idiags=[]
+    idiagss=[]
     repeticiones=[1]
 
     if args.nchar:
@@ -172,6 +176,15 @@ elif args.matrix:
                     idiags[i]-=1
             else:
                 idiags=[]
+        if(len(args.diagonales) == 3):
+            idiagss=args.diagonales[2]
+            idiagss=Utiles.check_argument_list(idiagss)
+            if idiagss != [0]:
+                for i in range(len(idiags)):
+                    idiagss[i]-=1
+            else:
+                idiagss=[]
+
 
     if args.size:
         repeticiones = args.size[0]
@@ -195,7 +208,7 @@ elif args.matrix:
         if args.nonc == False and not inv:
             texto_a_ejecutar+=str(columns[cuentar])+"\n"
 
-        texto_a_ejecutar+=gen.imp_ristra(rows[cuentar], columns[cuentac], char, nchar, inicioint, finint, fijado, iniciofijado, lineanofijada, idiagp, idiags,int(i))
+        texto_a_ejecutar+=imp_ristra(rows[cuentar], columns[cuentac], char, nchar, inicioint, finint, fijado, iniciofijado, lineanofijada, idiagp, idiags, idiagss, int(i))
 
         if(contp<len(repeticiones)-1):
             texto_a_ejecutar+="\n"
