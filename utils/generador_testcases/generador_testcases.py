@@ -81,9 +81,6 @@ def imp_ristra(rows, columns, char, ncar, inicioint, finalint, fijado, iniciof, 
                     a += char
                 notf=False
 
-            if (i+columns+1 in idiagp):
-                contp.append(-1)
-
             if i != rows - 1:
                 a += "\n"
                 if args.diagonales:
@@ -95,6 +92,8 @@ def imp_ristra(rows, columns, char, ncar, inicioint, finalint, fijado, iniciof, 
                 else:
                     indf=0
 
+            if (i+columns+1 in idiagp):
+                contp.append(0)
         texto+=a
         if k < n-1:
             texto+="\n"
