@@ -46,19 +46,23 @@ class Utiles:
         return t
         
 
-def imp_ristra(rows, columns, char, ncar, inicioint, finalint, fijado, iniciof, lineanofijada, idiagp, idiags, idiagss, n):
+def imp_ristra(rows, columns, char, ncar, inicioint, finalint, fijado, iniciof, lineanofijada, idiagp, idiags, n):
     a = ""
     texto = ""
     indf=0
-    contp=idiagp
-
+    contp=[]
+    conts=idiags
+    for i in range(len(idiagp)):
+        if idiagp[i]< columns:
+            contp.append(idiagp[i])
+    
     notf=False
     for k in range(n):
         for i in range(rows):
             for j in range(columns):
-                if(fijado != "" and indf<len(fijado)):
 
-                    if((j+1 >= int(iniciof)) and (str(i) not in lineanofijada)) and ((j in contp) or not args.diagonales): 
+                if(fijado != "" and indf<len(fijado)):
+                    if((j+1 >= int(iniciof)) and (str(i) not in lineanofijada)) and (((j in contp) or (j in conts)) or not args.diagonales): 
                         if (fijado[indf] != "^"):
                             a+=fijado[indf]
                             notf=True
@@ -77,23 +81,19 @@ def imp_ristra(rows, columns, char, ncar, inicioint, finalint, fijado, iniciof, 
                     a += char
                 notf=False
 
+            if (i+columns+1 in idiagp):
+                contp.append(-1)
+
             if i != rows - 1:
                 a += "\n"
                 if args.diagonales:
                     for l in range(len(contp)):
-                        if not args.invdiag:
-                            contp[l]+=1
-                        else:
-                            contp[l]-=1
+                        contp[l]+=1
+                    for l in range(len(conts)):
+                        conts[l]-=1
                     indf+=1
                 else:
                     indf=0
-
-            if i+1 in idiags:
-                contp.append(0)
-                
-            if i+1 in idiagss and j == columns-1 and args.invdiag:
-                contp.append(columns-1)
 
         texto+=a
         if k < n-1:
@@ -102,16 +102,13 @@ def imp_ristra(rows, columns, char, ncar, inicioint, finalint, fijado, iniciof, 
             
     return texto
         
-
 parser = argparse.ArgumentParser()
-
 parser.add_argument("-M", type=str, nargs=3, dest="matrix", help="Genera matriz nxn")
 parser.add_argument("--t", help='Cambia numeros por caracteres',action="store_true")
 parser.add_argument("-f", type=str, nargs=1, dest="ejecuta", help='Crea un subproceso del ejecutable con el que se quieren probar los casos')
 parser.add_argument("-fno", type=str, nargs=2, dest="ejecuta_casos_externos", help='Crea un subproceso del ejecutable ,pero se alimenta con casos externos')
 parser.add_argument("-fij", type=str, nargs="*", dest="fijado", help='Fijado de caracteres en algunas posiciones')
 parser.add_argument("-diag", type=str, nargs='*', dest="diagonales",help='Fijado de caracteres en diagonales')
-parser.add_argument("--invdiag", help="No imprime el nº ronda",action="store_true")
 parser.add_argument("-no", type=str, nargs=1,dest="nfijado",help='Fijado de caracteres en algunas posiciones')
 parser.add_argument("-int", type=str, nargs="*", dest="intercalado", help='Elige que posiciones son caracteres o numeros')
 parser.add_argument("--nonl", help="No imprime el nº ronda",action="store_true")
@@ -127,7 +124,6 @@ if args.ejecuta_casos_externos:
     rutatexto=args.ejecuta_casos_externos[1]
     t=Utiles.read_file(rutatexto)
     p = subprocess.run([os.getcwd()+"\\"+ ruta],text=True, input=t)
-
 
 elif args.matrix:
     rows = Utiles.check_argument_list(args.matrix[0])
@@ -176,15 +172,6 @@ elif args.matrix:
                     idiags[i]-=1
             else:
                 idiags=[]
-        if(len(args.diagonales) == 3):
-            idiagss=args.diagonales[2]
-            idiagss=Utiles.check_argument_list(idiagss)
-            if idiagss != [0]:
-                for i in range(len(idiags)):
-                    idiagss[i]-=1
-            else:
-                idiagss=[]
-
 
     if args.size:
         repeticiones = args.size[0]
@@ -208,7 +195,7 @@ elif args.matrix:
         if args.nonc == False and not inv:
             texto_a_ejecutar+=str(columns[cuentar])+"\n"
 
-        texto_a_ejecutar+=imp_ristra(rows[cuentar], columns[cuentac], char, nchar, inicioint, finint, fijado, iniciofijado, lineanofijada, idiagp, idiags, idiagss, int(i))
+        texto_a_ejecutar+=imp_ristra(rows[cuentar], columns[cuentac], char, nchar, inicioint, finint, fijado, iniciofijado, lineanofijada, idiagp, idiags, int(i))
 
         if(contp<len(repeticiones)-1):
             texto_a_ejecutar+="\n"

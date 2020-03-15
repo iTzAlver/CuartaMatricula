@@ -11,7 +11,7 @@
             "request": "launch",
             "program": "${file}",
             "console": "integratedTerminal",
-            "args": ["-M" ,"10", "10","' '","-fij","'AAA'","-diag","'[1,2,3]'","'[1,2,3]'","'[1,2,3]'","--invdiag"]
+            "args": ["-M" ,"10", "10","' '","-fij","'AAAAA'","-diag","'[13]'","'[0]'"]
         }
     ]
 }
