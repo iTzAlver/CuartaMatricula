@@ -155,22 +155,22 @@ elif args.matrix:
             if(args.nfijado):
                 a = args.nfijado[0]
 
-    if args.diagonales:
-        idiagp=args.diagonales[0]
-        idiagp=Utiles.check_argument_list(idiagp)
-        if idiagp != [0]:
-            for i in range(len(idiagp)):
-                idiagp[i]-=1
-        else:
-            idiagp=[]
-        if(len(args.diagonales) == 2):
-            idiags=args.diagonales[1]
-            idiags=Utiles.check_argument_list(idiags)
-            if idiags != [0]:
-                for i in range(len(idiags)):
-                    idiags[i]-=1
+        if args.diagonales:
+            idiagp=args.diagonales[0]
+            idiagp=Utiles.check_argument_list(idiagp)
+            if idiagp != [0]:
+                for i in range(len(idiagp)):
+                    idiagp[i]-=1
             else:
-                idiags=[]
+                idiagp=[]
+            if(len(args.diagonales) == 2):
+                idiags=args.diagonales[1]
+                idiags=Utiles.check_argument_list(idiags)
+                if idiags != [0]:
+                    for i in range(len(idiags)):
+                        idiags[i]-=1
+                else:
+                    idiags=[]
 
     if args.size:
         repeticiones = args.size[0]
