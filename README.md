@@ -24,7 +24,6 @@ http://releases.llvm.org/download.html # windows
 ```
 
 ## Developers:
-#### [Alvaro Iglesias.](https://github.com/t4rmo)
 
 #### [Gonzalo Corral.](https://github.com/augur97)
 
